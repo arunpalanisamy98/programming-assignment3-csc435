@@ -66,6 +66,7 @@ To run the C++ client (after you build the project) use the following command:
 #### Example (2 clients and 1 server)
 
 **Step 1:** start the server:
+
 Server
 ```
 ./build/file-retrieval-server
@@ -89,6 +90,7 @@ Connection successful!
 ```
 
 **Step 3:** list the connected clients on the server:
+
 Server
 ```
 > list
@@ -219,6 +221,7 @@ java -cp target/app-java-1.0-SNAPSHOT.jar csc435.app.FileRetrievalClient
 #### Example (2 clients and 1 server)
 
 **Step 1:** start the server:
+
 Server
 ```
 java -cp target/app-java-1.0-SNAPSHOT.jar csc435.app.FileRetrievalServer
@@ -242,6 +245,7 @@ Connection successful!
 ```
 
 **Step 3:** list the connected clients on the server:
+
 Server
 ```
 > list
