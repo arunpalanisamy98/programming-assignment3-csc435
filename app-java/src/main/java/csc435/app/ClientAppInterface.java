@@ -13,7 +13,7 @@ public class ClientAppInterface {
         // keep track of the connection with the client
     }
 
-    public void readCommands() {
+    public void readCommands() throws Exception{
         // TO-DO implement the read commands method
         Scanner sc = new Scanner(System.in);
         String command;
@@ -32,15 +32,23 @@ public class ClientAppInterface {
 
             // if the command begins with connect, connect to the given server
             if (command.length() >= 7 && command.substring(0, 7).compareTo("connect") == 0) {
-                // TO-DO implement index operation
-                // call the connect method from the server side engine
+                engine.openConnection();
                 continue;
             }
             
             // if the command begins with index, index the files from the specified directory
             if (command.length() >= 5 && command.substring(0, 5).compareTo("index") == 0) {
-                // TO-DO implement index operation
-                // call the index method on the serve side engine and pass the folder to be indexed
+                String[] arr = command.split(" ");
+                if(arr.length != 2) {
+                    System.out.println("Invalid command");
+                    continue;
+                }
+                String path = arr[1].trim();
+                String datasetNo = path.substring(path.length() - 1);
+                long startTime = System.currentTimeMillis();
+                engine.indexFiles(path,datasetNo);
+                long endTime = System.currentTimeMillis();
+                System.out.println("Indexing took " + (endTime - startTime)/1000 + " seconds");
                 continue;
             }
 

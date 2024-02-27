@@ -1,16 +1,65 @@
 package csc435.app;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 public class ClientSideEngine {
-    // TO-DO keep track of the connection
+    /*private IndexStore store;
+    private String rawFile;
+    private String datasetNo;*/
+    private Socket socket;
 
     public ClientSideEngine() {
         
         // TO-DO implement constructor
     }
 
-    public void indexFiles() {
-        // TO-DO implement index files method
-        // for each file read and count the words and send the counted words to the server
+    public ClientSideEngine(ServerSocket ss) throws Exception  {
+        socket = ss.accept();
+    }
+    static Set<String> foldersAccessed = new HashSet<>();
+
+    public void indexFiles(String rawFile, String datasetNo  ) throws Exception {
+        File input = new File(rawFile);
+        if (input.exists() && input.isDirectory()) {
+            File[] files = input.listFiles();
+            for (File file : files) {
+                if (file.isFile()) {
+                    if(foldersAccessed.contains(file.getAbsolutePath())) continue;
+                    cleanFiles(file.getAbsolutePath(), file.getName(),datasetNo );
+                }
+            }
+        }
+    }
+
+    public void cleanFiles(String fileName, String name, String datasetNo) throws Exception {
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        foldersAccessed.add(datasetNo+name);
+        String line;
+        HashMap<String, Integer> wordCount = new HashMap<>();
+        while ((line = reader.readLine()) != null) {
+            line = line.replace("\r", "");
+            line = line.replace("\\s+", "");
+            line = line.replace("[^\\w\\s", "");
+            line = line.replaceAll("[^a-zA-Z0-9 ]", "");
+            String[] str = line.split(" ");
+            for (String s : str) {
+                if(s.equals("")) continue;
+                if(wordCount.containsKey(s)){
+                    wordCount.put(s, wordCount.get(s) + 1);
+                }
+                else{
+                    wordCount.put(s, 1);
+                }
+            }
+        }
+        //store.insertIndex(datasetNo+name,wordCount);
     }
     
     public void searchFiles() {
@@ -20,13 +69,11 @@ public class ClientSideEngine {
         // return top 10 results
     }
 
-    public void openConnection() {
-        // TO-DO implement connect to server
-        // create a new TCP/IP socket and connect to the server
+    public void openConnection()  {
+
     }
 
     public void closeConnection() {
-        // TO-DO implement disconnect from server
-        // close the TCP/IP socket
+
     }
 }

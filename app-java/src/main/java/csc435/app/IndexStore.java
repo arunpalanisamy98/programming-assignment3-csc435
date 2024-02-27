@@ -6,9 +6,7 @@ public class IndexStore {
         // TO-DO implement constructor
     }
 
-    public void insertIndex() {
-        // TO-DO implement index insert method
-    }
+    public void insertIndex() {}
 
     public void lookupIndex() {
         // TO-DO implement index lookup method
