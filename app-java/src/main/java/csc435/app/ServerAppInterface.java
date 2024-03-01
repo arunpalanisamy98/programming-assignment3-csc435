@@ -9,11 +9,9 @@ public class ServerAppInterface {
     public ServerAppInterface(ServerSideEngine engine) {
         this.engine = engine;
 
-        // TO-DO implement constructor
     }
 
     public void readCommands() {
-        // TO-DO implement the read commands method
         Scanner sc = new Scanner(System.in);
         String command;
         
@@ -21,7 +19,7 @@ public class ServerAppInterface {
             System.out.print("> ");
             
             // read from command line
-            command = sc.next();
+            command = sc.nextLine();
 
             // if the command is quit, terminate the program       
             if (command.compareTo("quit") == 0) {
@@ -31,8 +29,7 @@ public class ServerAppInterface {
 
             // if the command begins with list, list all the connected clients
             if (command.length() >= 4 && command.substring(0, 4).compareTo("list") == 0) {
-                // TO-DO call the list method from the server to retrieve the clients information
-                // print the clients information
+
                 engine.list();
                 continue;
             }

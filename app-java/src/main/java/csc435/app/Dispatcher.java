@@ -1,17 +1,31 @@
 package csc435.app;
 
 
-public class Dispatcher implements Runnable {
-    private ServerSideEngine engine;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-    public Dispatcher(ServerSideEngine engine) {
-        this.engine = engine;
+public class Dispatcher implements Runnable {
+    private IndexStore indexStore;
+    private ServerSocket serverSocket;
+    private Socket socket;
+
+    public Dispatcher(IndexStore indexStore, ServerSocket serverSocket) throws Exception {
+        this.indexStore = indexStore;
+        this.serverSocket=serverSocket;
         // TO-DO implement constructor
     }
     
     @Override
     public void run() {
-        // TO-DO create a TCP/IP socket and listen for new connections
-        // When new connection comes through create a new Worker thread for the new connection
+        try{
+            while(true){
+                socket = serverSocket.accept();
+                Worker worker = new Worker(indexStore,socket);
+                new Thread(worker).start();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
+
 }
